@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Feedback Management System | College Academic Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Main Navigation Header -->
+  <header class="app-header">
+    <div class="nav-container">
+      <div class="brand" id="brand-logo" role="button" tabindex="0">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">EduFeedback</span>
+          <span class="brand-subtitle">Student Feedback Management System</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-btn active" id="nav-home" data-view="home">Home</button>
+        <button class="nav-btn" id="nav-courses" data-view="courses">Browse Courses</button>
+        <button class="nav-btn hidden" id="nav-my-feedback" data-view="my-feedback">My Submissions</button>
+        <button class="nav-btn hidden" id="nav-admin" data-view="admin">Admin Dashboard</button>
+      </nav>
+
+      <div class="nav-auth" id="nav-auth-container">
+        <!-- Logged-out state -->
+        <div id="logged-out-actions">
+          <button class="btn btn-outline" id="btn-open-login">Sign In</button>
+          <button class="btn btn-primary" id="btn-open-register">Register</button>
+        </div>
+
+        <!-- Logged-in state -->
+        <div id="logged-in-profile" class="hidden user-profile-badge">
+          <div class="user-avatar" id="user-avatar">S</div>
+          <div class="user-meta">
+            <span class="user-name" id="user-display-name">Student</span>
+            <span class="user-role-badge" id="user-display-role">Student</span>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="btn-logout" title="Log out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="main-content">
+
+    <!-- Demo Credentials Alert Box -->
+    <section class="demo-banner">
+      <div class="demo-banner-content">
+        <span class="demo-pill">Quick Demo Accounts</span>
+        <div class="demo-account">
+          <strong>Admin:</strong> <code>admin@college.edu</code> &bull; <code>Password123</code>
+        </div>
+        <div class="demo-account">
+          <strong>Student:</strong> <code>rahul.sharma@college.edu</code> &bull; <code>Password123</code>
+        </div>
+        <button class="demo-quick-fill-btn" id="btn-quick-fill-student">Fill Student</button>
+        <button class="demo-quick-fill-btn" id="btn-quick-fill-admin">Fill Admin</button>
+      </div>
+    </section>
+
+    <!-- VIEW 1: HOME / HERO VIEW -->
+    <section id="view-home" class="app-view active">
+      <div class="hero-section">
+        <div class="hero-badge">Academic Excellence & Continuous Improvement</div>
+        <h1 class="hero-title">Empowering Students,<br>Elevating Course Quality</h1>
+        <p class="hero-subtitle">
+          A transparent, secure, and constructive platform for engineering students to evaluate courses,
+          rate faculty effectiveness, and provide feedback with guaranteed anonymity.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="hero-btn-start">Submit Feedback Now &rarr;</button>
+          <button class="btn btn-outline btn-lg" id="hero-btn-browse">View Active Courses</button>
+        </div>
+      </div>
+
+      <!-- Features Cards -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon bg-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3>Guaranteed Anonymity</h3>
+          <p>Choose to keep your evaluation confidential. Your identity and roll number remain completely hidden from instructors.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon bg-emerald">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <h3>Multi-Metric Scoring</h3>
+          <p>Rate courses across distinct dimensions: Teaching Effectiveness, Course Content/Syllabus, and Lab/Practical Guidance.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon bg-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <h3>Real-time Analytics</h3>
+          <p>Department heads and faculty view instant aggregated metrics, star ratings, and constructive reviews to upgrade curriculum delivery.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: COURSES VIEW (Student & Visitor View) -->
+    <section id="view-courses" class="app-view">
+      <div class="view-header">
+        <div>
+          <h2 class="view-title">Active Courses & Faculty</h2>
+          <p class="view-subtitle">Select a subject to submit your feedback evaluation or review course ratings.</p>
+        </div>
+        <div class="search-filter-bar">
+          <input type="text" id="course-search-input" class="form-control" placeholder="Search by code, title, or instructor...">
+          <select id="course-semester-filter" class="form-control form-select">
+            <option value="all">All Semesters</option>
+            <option value="Semester 3">Semester 3</option>
+            <option value="Semester 4">Semester 4</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Courses Grid Container -->
+      <div id="courses-grid" class="cards-grid">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading course catalogue...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: MY SUBMISSIONS (Student View) -->
+    <section id="view-my-feedback" class="app-view">
+      <div class="view-header">
+        <div>
+          <h2 class="view-title">My Feedback History</h2>
+          <p class="view-subtitle">Review all course evaluations you have submitted during this academic term.</p>
+        </div>
+      </div>
+
+      <div id="my-feedback-list" class="feedback-history-container">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading your past submissions...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: ADMIN DASHBOARD (Administrator / Faculty View) -->
+    <section id="view-admin" class="app-view">
+      <div class="view-header">
+        <div>
+          <h2 class="view-title">Academic Feedback Analytics</h2>
+          <p class="view-subtitle">Aggregated metrics, instructor ratings, and student evaluation summaries.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-open-add-course">+ Add New Course</button>
+          <button class="btn btn-outline" id="btn-refresh-analytics">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title">Total Submissions</div>
+          <div class="stat-value" id="stat-total-feedbacks">0</div>
+          <div class="stat-footer">Student evaluation responses</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">Institution Average</div>
+          <div class="stat-value highlight" id="stat-avg-rating">0.00 <span class="stat-star">★</span></div>
+          <div class="stat-footer">Overall performance score</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">Active Courses</div>
+          <div class="stat-value" id="stat-total-courses">0</div>
+          <div class="stat-footer">Under evaluation this semester</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">Faculty Members</div>
+          <div class="stat-value" id="stat-total-faculty">0</div>
+          <div class="stat-footer">Across academic departments</div>
+        </div>
+      </div>
+
+      <!-- Metric Sub-Breakdown -->
+      <div class="metrics-breakdown-card">
+        <h3>Institutional Dimension Breakdown</h3>
+        <div class="dimension-bars">
+          <div class="dimension-row">
+            <span class="dim-label">Teaching Effectiveness:</span>
+            <div class="progress-track"><div class="progress-fill bg-blue" id="bar-teaching" style="width: 0%"></div></div>
+            <span class="dim-score" id="score-teaching">0.0 / 5.0</span>
+          </div>
+          <div class="dimension-row">
+            <span class="dim-label">Course Content & Syllabus:</span>
+            <div class="progress-track"><div class="progress-fill bg-emerald" id="bar-content" style="width: 0%"></div></div>
+            <span class="dim-score" id="score-content">0.0 / 5.0</span>
+          </div>
+          <div class="dimension-row">
+            <span class="dim-label">Practical / Lab Guidance:</span>
+            <div class="progress-track"><div class="progress-fill bg-purple" id="bar-support" style="width: 0%"></div></div>
+            <span class="dim-score" id="score-support">0.0 / 5.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Rankings Table -->
+      <div class="content-panel">
+        <div class="panel-header">
+          <h3>Course Performance Summary</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Course Name</th>
+                <th>Instructor</th>
+                <th>Department</th>
+                <th>Feedbacks</th>
+                <th>Overall Rating</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-courses-table-body">
+              <tr>
+                <td colspan="7" class="text-center text-muted">Loading courses data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detailed Student Comments / Feedback Explorer -->
+      <div class="content-panel mt-4">
+        <div class="panel-header flex-between">
+          <h3>Student Feedback Submissions & Remarks</h3>
+          <div class="panel-filter">
+            <select id="admin-filter-course" class="form-control form-select-sm">
+              <option value="">All Courses</option>
+            </select>
+          </div>
+        </div>
+        <div id="admin-feedbacks-container" class="admin-feedbacks-list">
+          <p class="text-muted text-center py-4">Select a course or view all feedbacks above.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================== -->
+  <!-- MODALS -->
+  <!-- ====================================================================== -->
+
+  <!-- AUTHENTICATION MODAL (Login / Register) -->
+  <div class="modal-overlay hidden" id="modal-auth">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tab-btn-login">Sign In</button>
+          <button class="auth-tab-btn" id="tab-btn-register">Register Account</button>
+        </div>
+        <button class="modal-close-btn" id="btn-close-auth-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- LOGIN FORM -->
+        <form id="form-login" class="auth-form">
+          <div class="form-group">
+            <label for="login-email">College Email Address</label>
+            <input type="email" id="login-email" class="form-control" placeholder="e.g. rahul.sharma@college.edu" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btn-submit-login">Sign In</button>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="form-register" class="auth-form hidden">
+          <div class="form-group">
+            <label for="reg-role">I am a</label>
+            <select id="reg-role" class="form-control">
+              <option value="student">Student</option>
+              <option value="admin">Faculty / Administrator</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">College Email Address</label>
+            <input type="email" id="reg-email" class="form-control" placeholder="e.g. rahul.sharma@college.edu" required>
+          </div>
+          <div class="form-group" id="reg-roll-container">
+            <label for="reg-roll">Roll / Registration Number</label>
+            <input type="text" id="reg-roll" class="form-control" placeholder="e.g. 24CS101">
+          </div>
+          <div class="form-group">
+            <label for="reg-dept">Department</label>
+            <select id="reg-dept" class="form-control">
+              <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Electronics & Communication">Electronics & Communication</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Applied Mathematics">Applied Mathematics</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password (Minimum 6 characters)</label>
+            <input type="password" id="reg-password" class="form-control" placeholder="Create a secure password" required minlength="6">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btn-submit-register">Create Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK SUBMISSION MODAL -->
+  <div class="modal-overlay hidden" id="modal-feedback">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Course Feedback Evaluation</h3>
+          <p class="modal-subtitle" id="fb-modal-course-title">CS201 - Data Structures</p>
+        </div>
+        <button class="modal-close-btn" id="btn-close-feedback-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-submit-feedback">
+          <input type="hidden" id="fb-course-id">
+
+          <!-- Instructor Info Callout -->
+          <div class="instructor-callout">
+            <span class="callout-label">Course Instructor:</span>
+            <span class="callout-value" id="fb-modal-instructor-name">Dr. Alan Sharma</span>
+            <span class="callout-divider">&bull;</span>
+            <span class="callout-label">Department:</span>
+            <span class="callout-value" id="fb-modal-department">CSE</span>
+          </div>
+
+          <!-- Rating Dimension 1 -->
+          <div class="rating-group">
+            <div class="rating-meta">
+              <label class="rating-label">1. Teaching Effectiveness & Clarity</label>
+              <span class="rating-hint">Instructor's explanation of complex topics, pace, and responsiveness to queries.</span>
+            </div>
+            <div class="star-rating" data-metric="teaching">
+              <button type="button" class="star" data-val="1">&#9733;</button>
+              <button type="button" class="star" data-val="2">&#9733;</button>
+              <button type="button" class="star" data-val="3">&#9733;</button>
+              <button type="button" class="star" data-val="4">&#9733;</button>
+              <button type="button" class="star" data-val="5">&#9733;</button>
+              <span class="rating-value-badge" id="val-teaching">Select</span>
+            </div>
+          </div>
+
+          <!-- Rating Dimension 2 -->
+          <div class="rating-group">
+            <div class="rating-meta">
+              <label class="rating-label">2. Course Content & Syllabus Coverage</label>
+              <span class="rating-hint">Organization of course materials, timely completion of syllabus, and relevance of assignments.</span>
+            </div>
+            <div class="star-rating" data-metric="content">
+              <button type="button" class="star" data-val="1">&#9733;</button>
+              <button type="button" class="star" data-val="2">&#9733;</button>
+              <button type="button" class="star" data-val="3">&#9733;</button>
+              <button type="button" class="star" data-val="4">&#9733;</button>
+              <button type="button" class="star" data-val="5">&#9733;</button>
+              <span class="rating-value-badge" id="val-content">Select</span>
+            </div>
+          </div>
+
+          <!-- Rating Dimension 3 -->
+          <div class="rating-group">
+            <div class="rating-meta">
+              <label class="rating-label">3. Practical Guidance & Support</label>
+              <span class="rating-hint">Assistance provided during laboratory hours, doubt-solving sessions, and project work.</span>
+            </div>
+            <div class="star-rating" data-metric="support">
+              <button type="button" class="star" data-val="1">&#9733;</button>
+              <button type="button" class="star" data-val="2">&#9733;</button>
+              <button type="button" class="star" data-val="3">&#9733;</button>
+              <button type="button" class="star" data-val="4">&#9733;</button>
+              <button type="button" class="star" data-val="5">&#9733;</button>
+              <span class="rating-value-badge" id="val-support">Select</span>
+            </div>
+          </div>
+
+          <!-- Live Composite Score Preview -->
+          <div class="composite-score-card">
+            <span>Computed Overall Score:</span>
+            <strong id="fb-composite-score">0.00 / 5.00</strong>
+          </div>
+
+          <!-- Comments Textarea -->
+          <div class="form-group mt-3">
+            <label for="fb-comments">Constructive Suggestions & Feedback (Optional)</label>
+            <textarea id="fb-comments" class="form-control" rows="3" placeholder="Share specific examples or suggestions for improving the course delivery..."></textarea>
+          </div>
+
+          <!-- Anonymity Checkbox -->
+          <div class="form-check-card">
+            <label class="checkbox-container">
+              <input type="checkbox" id="fb-anonymous" checked>
+              <span class="checkmark"></span>
+              <div class="checkbox-text">
+                <strong>Submit Anonymously</strong>
+                <p>Your name and roll number will not be visible to faculty or in reports. Only your ratings and comments are recorded.</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="btn-cancel-feedback">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit-feedback-card">Submit Evaluation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD COURSE MODAL (Admin only) -->
+  <div class="modal-overlay hidden" id="modal-add-course">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Register New Course</h3>
+        <button class="modal-close-btn" id="btn-close-course-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-add-course">
+          <div class="form-group">
+            <label for="course-code-input">Course Code</label>
+            <input type="text" id="course-code-input" class="form-control" placeholder="e.g. CS204" required>
+          </div>
+          <div class="form-group">
+            <label for="course-name-input">Course Title</label>
+            <input type="text" id="course-name-input" class="form-control" placeholder="e.g. Operating Systems & Shell" required>
+          </div>
+          <div class="form-group">
+            <label for="course-instructor-input">Instructor Name</label>
+            <input type="text" id="course-instructor-input" class="form-control" placeholder="e.g. Prof. Sneha Rao" required>
+          </div>
+          <div class="form-group">
+            <label for="course-dept-input">Department</label>
+            <select id="course-dept-input" class="form-control">
+              <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Electronics & Communication">Electronics & Communication</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Applied Mathematics">Applied Mathematics</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="course-semester-input">Semester</label>
+            <select id="course-semester-input" class="form-control">
+              <option value="Semester 1">Semester 1</option>
+              <option value="Semester 2">Semester 2</option>
+              <option value="Semester 3" selected>Semester 3</option>
+              <option value="Semester 4">Semester 4</option>
+              <option value="Semester 5">Semester 5</option>
+              <option value="Semester 6">Semester 6</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="btn-cancel-course">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-save-course">Add Course</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-info">
+        <p><strong>Student Feedback Management System</strong> &bull; B.Tech Full-Stack Capstone Project</p>
+        <p class="footer-tech">Built with HTML5, CSS3, Vanilla JavaScript, Node.js, Express.js & Supabase PostgreSQL.</p>
+      </div>
+      <div class="footer-status">
+        <span class="status-indicator"></span>
+        <span id="system-status-text">System Status: Operational</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
